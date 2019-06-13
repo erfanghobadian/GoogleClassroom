@@ -31,9 +31,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         UsernameText = findViewById(R.id.usernameR);
         PasswordText = findViewById(R.id.passwordR);
+        imageView = findViewById(R.id.imageView);
+        ChooseImageBtn = findViewById(R.id.button);
 
 
 
+        // Check Username is Empty or NOT
         UsernameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -42,28 +45,39 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (UsernameText.length() ==0)
-                    UsernameText.setError("Empty");
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (UsernameText.length() ==0)
+                    UsernameText.setError("Empty");
             }
         });
-//
-//        UsernameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//
-//            }
-//        });
-
-        imageView = findViewById(R.id.imageView);
 
 
+        // Check Password is Empty or NOT
+        PasswordText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        ChooseImageBtn = findViewById(R.id.button);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (PasswordText.length() ==0)
+                    PasswordText.setError("Empty");
+            }
+        });
+
+
+
+
         ChooseImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
