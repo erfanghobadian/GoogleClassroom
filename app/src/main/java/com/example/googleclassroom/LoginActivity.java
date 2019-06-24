@@ -48,41 +48,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Check Username is Empty or NOT
-        username.addTextChangedListener(new TextWatcher() {
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onFocusChange(View v, boolean hasFocus) {
                 if (username.length() ==0)
                     username.setError("Empty");
             }
         });
 
         // Check Password is Empty or NOT
-        password.addTextChangedListener(new TextWatcher() {
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onFocusChange(View v, boolean hasFocus) {
                 if (password.length() ==0)
                     password.setError("Empty");
-
             }
         });
 
@@ -113,10 +92,10 @@ public class LoginActivity extends AppCompatActivity {
 // Class For BackGround Socket Login
 class LoginCheck extends AsyncTask<String,Void , String> {
     Socket s ;
-    ObjectOutputStream Odos ;
+    ObjectOutputStream oos ;
     ObjectInputStream ois ;
     DataInputStream dis;
-    boolean answer ;
+    Boolean answer ;
     WeakReference<LoginActivity> activityReference ;
 
     LoginCheck(LoginActivity context) {
@@ -127,12 +106,17 @@ class LoginCheck extends AsyncTask<String,Void , String> {
     protected String doInBackground(String... strings) {
         try {
             s = new Socket("10.0.2.2" , 8080);
-            Odos = new ObjectOutputStream(s.getOutputStream());
-            dis = new DataInputStream(s.getInputStream());
-            Odos.writeObject(strings);
-            Odos.flush();
-            answer = dis.readBoolean();
+            oos = new ObjectOutputStream(s.getOutputStream());
+            ois = new ObjectInputStream(s.getInputStream());
+            oos.writeObject(strings);
+            oos.flush();
+            answer = ois.readBoolean();
 
+
+
+            oos.close();
+            ois.close();
+            s.close();
         }catch (Exception e){
             e.printStackTrace();
         }

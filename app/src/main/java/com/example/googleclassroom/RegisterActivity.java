@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +20,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
+import java.net.Socket;
+
 public class RegisterActivity extends AppCompatActivity {
     ImageView imageView;
     Button ChooseImageBtn ;
     EditText UsernameText;
     EditText PasswordText;
+    Button RegisterBtn ;
+    Boolean usernameL = false;
+    Boolean username = false;
+    Boolean password = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,45 +45,79 @@ public class RegisterActivity extends AppCompatActivity {
         PasswordText = findViewById(R.id.passwordR);
         imageView = findViewById(R.id.imageView);
         ChooseImageBtn = findViewById(R.id.button);
+        RegisterBtn = findViewById(R.id.RegisterBTN);
+
+
 
 
 
         // Check Username is Empty or NOT
-        UsernameText.addTextChangedListener(new TextWatcher() {
+        UsernameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (UsernameText.length() ==0)
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (UsernameText.length() ==0) {
                     UsernameText.setError("Empty");
+                    usernameL = true;
+                }
+                else
+                    UsernameText.setError(null);
+                    usernameL = false ;
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            Socket s = new Socket("10.0.2.2" , 8080);
+                            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+                            String[] a = {"UserNameCheck" , UsernameText.getText().toString()};
+                            oos.writeObject(a);
+                            oos.flush();
+
+                            if (!ois.readBoolean()) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        UsernameText.setError("Username is Duplicate");
+                                        username = true;
+                                    }
+                                });
+                            }else {
+                                username = false;
+                            }
+
+                            oos.close();
+                            ois.close();
+                            s.close();
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
         });
 
 
         // Check Password is Empty or NOT
-        PasswordText.addTextChangedListener(new TextWatcher() {
+        PasswordText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (PasswordText.length() ==0)
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (PasswordText.length() ==0) {
                     PasswordText.setError("Empty");
+                    password =true ;
+                }
+
+                else if (PasswordText.length() < 6) {
+                    PasswordText.setError("Password Must Be more than 5 Char");
+                    password = true ;
+                }
+                else {
+                    PasswordText.setError(null);
+                    password = false ;
+                }
+
             }
         });
 
@@ -85,6 +131,25 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
+
+        RegisterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!username && !password && !usernameL) {
+                    String us = UsernameText.getText().toString();
+                    String ps = PasswordText.getText().toString();
+                    SendRegister sendRegister = new SendRegister(RegisterActivity.this);
+                    sendRegister.execute("Register", us, ps);
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "Please Check The Errors", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
 
 
     }
@@ -159,6 +224,58 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
-
 }
+
+
+// Class For BackGround Socket Login
+class SendRegister extends AsyncTask<String,Void , String> {
+    Socket s ;
+    ObjectOutputStream oos ;
+    ObjectInputStream ois ;
+    DataInputStream dis;
+    Boolean answer ;
+    WeakReference<RegisterActivity> activityReference ;
+
+    SendRegister(RegisterActivity context) {
+        activityReference = new WeakReference<>(context);
+    }
+
+    @Override
+    protected String doInBackground(String... strings) {
+        try {
+            s = new Socket("10.0.2.2" , 8080);
+            oos = new ObjectOutputStream(s.getOutputStream());
+            ois = new ObjectInputStream(s.getInputStream());
+            oos.writeObject(strings);
+            oos.flush();
+            answer= ois.readBoolean();
+
+
+
+            oos.close();
+            ois.close();
+            s.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        RegisterActivity activity = activityReference.get();
+        if (activity== null || activity.isFinishing()) return;
+
+        if (answer) {
+            Toast.makeText(activity, "Your Logged in Successfully", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(activity, MainActivity.class);
+            activity.startActivity(intent);
+        }else {
+
+        }
+
+    }
+}
+
