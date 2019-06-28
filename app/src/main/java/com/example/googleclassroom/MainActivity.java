@@ -1,5 +1,7 @@
 package com.example.googleclassroom;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -12,18 +14,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mdrawerLayout ;
     private ActionBarDrawerToggle mToggle ;
     private Toolbar mToolbar ;
+    private ImageView imageView ;
+    private TextView usernameTextView ;
+    private User user ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = (User) getIntent().getSerializableExtra("user");
+
+
+
 
 
         // For Toolbar
@@ -56,6 +69,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+        navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+
+
+        imageView = headerView.findViewById(R.id.mainavatar);
+        byte[] imgByte = user.avatar;
+        System.out.println(Arrays.toString(imgByte));
+        Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
+        imageView.setImageBitmap(bmp);
+
+
+
+        usernameTextView = headerView.findViewById(R.id.usernameMain);
+        usernameTextView.setText(user.username);
+
+        System.out.println(user.username);
 
     }
 

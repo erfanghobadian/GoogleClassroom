@@ -5,21 +5,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     Boolean usernameL = false;
     Boolean username = false;
     Boolean password = false;
+    byte [] imgbyte;
 
 
     @Override
@@ -46,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         ChooseImageBtn = findViewById(R.id.button);
         RegisterBtn = findViewById(R.id.RegisterBTN);
+
 
 
 
@@ -140,7 +141,15 @@ public class RegisterActivity extends AppCompatActivity {
                     String us = UsernameText.getText().toString();
                     String ps = PasswordText.getText().toString();
                     SendRegister sendRegister = new SendRegister(RegisterActivity.this);
-                    sendRegister.execute("Register", us, ps);
+                    if (imageView.getDrawable() !=null) {
+                        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        imgbyte = baos.toByteArray();
+                    }
+                    else
+                        imgbyte = new byte[1];
+                    sendRegister.execute(imgbyte,"Register", us, ps);
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, "Please Check The Errors", Toast.LENGTH_LONG).show();
@@ -223,32 +232,50 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    public byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
+    }
+
 
 }
 
 
 // Class For BackGround Socket Login
-class SendRegister extends AsyncTask<String,Void , String> {
+class SendRegister extends AsyncTask<Object,Void , String> {
     Socket s ;
     ObjectOutputStream oos ;
     ObjectInputStream ois ;
     DataInputStream dis;
     Boolean answer ;
+    User user;
     WeakReference<RegisterActivity> activityReference ;
+    byte[] imagByte ;
 
     SendRegister(RegisterActivity context) {
         activityReference = new WeakReference<>(context);
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(Object... input) {
         try {
             s = new Socket("10.0.2.2" , 8080);
             oos = new ObjectOutputStream(s.getOutputStream());
             ois = new ObjectInputStream(s.getInputStream());
+            String[] strings = {(String)input[1] , (String)input[2] , (String)input[3]} ;
+            byte[] imgByte = (byte[])input[0];
             oos.writeObject(strings);
             oos.flush();
+            oos.writeObject(imgByte);
+            oos.flush();
             answer= ois.readBoolean();
+            if (answer) {
+                String username = (String) ois.readObject();
+                String password = (String) ois.readObject();
+                byte[] imagByte = (byte[]) ois.readObject();
+                user = new User(username, password, imagByte);
+            }
 
 
 
@@ -271,6 +298,7 @@ class SendRegister extends AsyncTask<String,Void , String> {
         if (answer) {
             Toast.makeText(activity, "Your Logged in Successfully", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra("user" , user);
             activity.startActivity(intent);
         }else {
 

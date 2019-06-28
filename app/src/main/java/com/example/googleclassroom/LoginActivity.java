@@ -97,6 +97,7 @@ class LoginCheck extends AsyncTask<String,Void , String> {
     DataInputStream dis;
     Boolean answer ;
     WeakReference<LoginActivity> activityReference ;
+    User user ;
 
     LoginCheck(LoginActivity context) {
         activityReference = new WeakReference<>(context);
@@ -112,7 +113,12 @@ class LoginCheck extends AsyncTask<String,Void , String> {
             oos.flush();
             answer = ois.readBoolean();
 
-
+            if (answer) {
+                String username = (String) ois.readObject();
+                String password = (String) ois.readObject();
+                byte[] imagByte = (byte[]) ois.readObject();
+                user = new User(username, password, imagByte);
+            }
 
             oos.close();
             ois.close();
@@ -132,6 +138,7 @@ class LoginCheck extends AsyncTask<String,Void , String> {
         if (answer) {
             Toast.makeText(activity, "Your Logged in Successfully", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra("user" , user);
             activity.startActivity(intent);
         }else {
 
