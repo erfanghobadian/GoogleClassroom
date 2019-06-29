@@ -251,7 +251,6 @@ class SendRegister extends AsyncTask<Object,Void , String> {
     Boolean answer ;
     User user;
     WeakReference<RegisterActivity> activityReference ;
-    byte[] imagByte ;
 
     SendRegister(RegisterActivity context) {
         activityReference = new WeakReference<>(context);
@@ -271,10 +270,7 @@ class SendRegister extends AsyncTask<Object,Void , String> {
             oos.flush();
             answer= ois.readBoolean();
             if (answer) {
-                String username = (String) ois.readObject();
-                String password = (String) ois.readObject();
-                byte[] imagByte = (byte[]) ois.readObject();
-                user = new User(username, password, imagByte);
+                user = (User)ois.readObject();
             }
 
 

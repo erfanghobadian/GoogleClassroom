@@ -1,18 +1,21 @@
 package com.example.googleclassroom;
 
-import android.app.FragmentManager;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,16 +25,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.DataInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
     private DrawerLayout mdrawerLayout ;
     private ActionBarDrawerToggle mToggle ;
     private Toolbar mToolbar ;
     private ImageView imageView ;
     private TextView usernameTextView ;
-    private User user ;
+    User user ;
+
+    RecyclerView rv ;
+
+
+
+
+
+    void initializeAdapter(){
+        RVAdapter adapter = new RVAdapter(user);
+        rv.setAdapter(adapter);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +62,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         user = (User) getIntent().getSerializableExtra("user");
 
+        rv= findViewById(R.id.my_recycler_view);
 
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
 
+        initializeAdapter();
 
 
         // For Toolbar
@@ -64,14 +91,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // For FAB
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -90,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         usernameTextView.setText(user.username);
 
         System.out.println(user.username);
+
 
 
 
@@ -136,12 +164,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     int Iid = item.getItemId();
                     if (Iid == R.id.Create_Class) {
                         FullScreenDialogCreateClass dialog = new FullScreenDialogCreateClass();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user" , user);
+                        dialog.setArguments(bundle);
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                         dialog.show(ft, FullScreenDialogCreateClass.TAG);
                         popup.dismiss();
                     }
                     else if (Iid == R.id.Join_Class) {
                         FullScreenDialogJoinClass dialog = new FullScreenDialogJoinClass();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user" , user);
+                        dialog.setArguments(bundle);
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                         dialog.show(ft, FullScreenDialogJoinClass.TAG);
                         popup.dismiss();
@@ -157,7 +191,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Toast.makeText(this, "Add Button", Toast.LENGTH_SHORT).show();
 
         }
-//        else if (id == R.id.) {}
+        else if (id == R.id.action_refresh) {
+            Refresh ARefresh = new Refresh(MainActivity.this);
+            ARefresh.execute("Refresh" , user.username , user.password);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -167,10 +204,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_home) {
-//            // Handle the camera action
+        int id = item.getItemId();
+
+        if (id == R.id.nav_refresh) {
+            Refresh NRefresh = new Refresh(MainActivity.this);
+            NRefresh.execute("Refresh" , user.username , user.password);
+
+        }
 //        } else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {
@@ -191,3 +231,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 }
+
+
+class Refresh extends AsyncTask<Object,Void , String> {
+    Socket s ;
+    ObjectOutputStream oos ;
+    ObjectInputStream ois ;
+    WeakReference<MainActivity> activityReference ;
+    User user ;
+    Refresh(MainActivity context) {
+        activityReference = new WeakReference<>(context);
+    }
+
+    @Override
+    protected String doInBackground(Object... input) {
+        try {
+            s = new Socket("10.0.2.2" , 8080);
+            oos = new ObjectOutputStream(s.getOutputStream());
+            ois = new ObjectInputStream(s.getInputStream());
+            String[] strings = {(String) input[0] , (String)input[1] , (String)input[2]};
+            oos.writeObject(strings);
+            oos.flush();
+            user = (User)ois.readObject();
+
+
+            oos.close();
+            ois.close();
+            s.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+
+        MainActivity activity = activityReference.get();
+        if (activity== null || activity.isFinishing()) return;
+        activity.user = user ;
+        activity.initializeAdapter();
+
+    }
+}
+
+
+
+

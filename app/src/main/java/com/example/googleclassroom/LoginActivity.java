@@ -1,6 +1,7 @@
 package com.example.googleclassroom;
 
 import android.content.Intent;
+import android.icu.lang.UScript;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -114,10 +115,7 @@ class LoginCheck extends AsyncTask<String,Void , String> {
             answer = ois.readBoolean();
 
             if (answer) {
-                String username = (String) ois.readObject();
-                String password = (String) ois.readObject();
-                byte[] imagByte = (byte[]) ois.readObject();
-                user = new User(username, password, imagByte);
+                user = (User)ois.readObject() ;
             }
 
             oos.close();

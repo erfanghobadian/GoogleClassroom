@@ -54,7 +54,9 @@
                 android:backgroundTint="@color/grey"
                 android:ems="10"
                 android:hint="Class Name"
-                android:inputType="textPersonName"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +92,9 @@
                 android:backgroundTint="@color/grey"
                 android:ems="10"
                 android:hint="Class Description"
-                android:inputType="textPersonName"
+                android:textColor="@android:color/black"
+
+                android:inputType="text"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -119,6 +123,7 @@
             tools:visibility="visible">
 
 
+
             <EditText
                 android:id="@+id/ClassRoom"
                 android:layout_width="wrap_content"
@@ -126,8 +131,9 @@
                 android:backgroundTint="@color/grey"
                 android:ems="10"
                 android:hint="Room"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:visibility="visible"
+                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />

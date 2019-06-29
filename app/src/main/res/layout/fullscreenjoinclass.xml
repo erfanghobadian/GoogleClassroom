@@ -50,6 +50,8 @@
                 android:backgroundTint="@color/grey"
                 android:ems="10"
                 android:hint="Class Code"
+                android:textColor="@android:color/black"
+
                 android:inputType="textPersonName"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
