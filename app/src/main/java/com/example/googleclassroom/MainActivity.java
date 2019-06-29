@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout mdrawerLayout ;
     private ActionBarDrawerToggle mToggle ;
     private Toolbar mToolbar ;
@@ -90,15 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        // For FAB
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
 
         navigationView.setNavigationItemSelectedListener(this);

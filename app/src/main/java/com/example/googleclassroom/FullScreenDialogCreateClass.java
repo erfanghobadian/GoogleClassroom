@@ -91,7 +91,7 @@ public class FullScreenDialogCreateClass extends DialogFragment {
 
                     if(ClassName.length()!=0 && ClassRoom.length()!=0) {
                         Class aClass = new Class(ClassName.getText().toString(), ClassRoom.getText().toString(), ClassDes.getText().toString());
-                        AddClass send = new AddClass(getActivity());
+                        AddClass send = new AddClass(getActivity() , user);
                         send.execute("AddClass", user.username, user.password, aClass);
                         dismiss();
                     }
@@ -130,10 +130,12 @@ class AddClass extends AsyncTask<Object,Void , String> {
     DataInputStream dis;
     Boolean answer ;
     Class myclass ;
+    User user ;
     WeakReference<FragmentActivity> activityReference ;
 
-    AddClass(FragmentActivity context) {
+    AddClass(FragmentActivity context , User user) {
         activityReference = new WeakReference<>(context);
+        this.user = user ;
     }
 
     @Override
@@ -174,6 +176,7 @@ class AddClass extends AsyncTask<Object,Void , String> {
         if (answer) {
             Intent intent = new Intent(activity, ClassActivity.class);
             intent.putExtra("class" , myclass) ;
+            intent.putExtra("user" , user) ;
             activity.startActivity(intent);
 
         }else {

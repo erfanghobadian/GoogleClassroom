@@ -77,6 +77,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ClassActivity.class);
                 intent.putExtra("class" , cls);
+                intent.putExtra("user" , user);
                 v.getContext().startActivity(intent);
             }
         });
