@@ -1,14 +1,18 @@
 package com.example.googleclassroom;
 
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -87,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         System.out.println(user.username);
 
+
+
+
+
     }
 
 
@@ -114,14 +122,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id  = item.getItemId();
+        final int id  = item.getItemId();
 
         if (id == R.id.action_add) {
 
-            Toast.makeText(this, "Add Button", Toast.LENGTH_SHORT).show();
+            final PopupMenu popup = new PopupMenu(this , findViewById(R.id.action_add));
+
+            popup.getMenuInflater().inflate(R.menu.add_menu, popup.getMenu());
+
+
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    int Iid = item.getItemId();
+                    if (Iid == R.id.Create_Class) {
+                        FullScreenDialogCreateClass dialog = new FullScreenDialogCreateClass();
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        dialog.show(ft, FullScreenDialogCreateClass.TAG);
+                        popup.dismiss();
+                    }
+                    else if (Iid == R.id.Join_Class) {
+                        FullScreenDialogJoinClass dialog = new FullScreenDialogJoinClass();
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        dialog.show(ft, FullScreenDialogJoinClass.TAG);
+                        popup.dismiss();
+
+                    }
+                    return true;
+                }
+            });
+
+
+            popup.show();
+
+//            Toast.makeText(this, "Add Button", Toast.LENGTH_SHORT).show();
 
         }
-        else if (id == R.id.action_settings) {}
+//        else if (id == R.id.) {}
 
         return super.onOptionsItemSelected(item);
     }
@@ -150,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mdrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
 }
