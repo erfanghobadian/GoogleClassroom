@@ -4,31 +4,46 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:layout_margin="2dp"
-    card_view:cardBackgroundColor="#fff"
+    android:orientation="vertical"
     card_view:cardCornerRadius="5dp"
-
     card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/primaryLightColor" />
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_more_horiz_black_24dp" />
+        </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_height="2dp"
+            android:background="@color/primaryLightColor">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:padding="20dp"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
             tools:layout_editor_absoluteX="74dp" />
-
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
