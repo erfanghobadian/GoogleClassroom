@@ -11,6 +11,7 @@ public class Class implements Serializable {
     ArrayList <User> teachers = new ArrayList<>() ;
     String code;
     ArrayList<User> students = new ArrayList<>() ;
+    ArrayList<Topic> topics = new ArrayList<>() ;
     Class(String name , String room , String des) {
         this.name = name;
         this.room = room ;

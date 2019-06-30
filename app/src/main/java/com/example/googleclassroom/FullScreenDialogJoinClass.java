@@ -169,7 +169,8 @@ class JoinClass extends AsyncTask<Object,Void , String> {
                 Toast.makeText(activity, "You Are Teacher in This Class", Toast.LENGTH_SHORT).show();
             }else {
                 Intent intent = new Intent(activity, ClassActivity.class);
-                intent.putExtra("class", myclass);
+                intent.putExtra("myclass", myclass);
+                intent.putExtra("user", user);
                 activity.startActivity(intent);
             }
 

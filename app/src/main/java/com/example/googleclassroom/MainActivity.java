@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(user);
+        RVAdapter adapter = new RVAdapter(user , this);
         rv.setAdapter(adapter);
     }
 
