@@ -8,7 +8,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,8 @@ public class Classwork extends Fragment {
 
     boolean isteacher = false ;
 
+    RecyclerView rv ;
+
     User user ;
     Class myclass ;
     public Classwork() {
@@ -39,40 +43,39 @@ public class Classwork extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_classwork, container, false) ;
 
-
         user = (User) getArguments().getSerializable("user");
         myclass = (Class) getArguments().getSerializable("myclass") ;
-
         for (User usr : myclass.teachers) {
             if (usr.username.equals(user.username))
                 isteacher = true ;
         }
-
-
-
-
         System.out.println(myclass.code);
         setHasOptionsMenu(true);
 
+        Assignment ns = new Assignment();
+        Assignment ns2 = new Assignment();
+        Topic tp = new Topic();
+        tp.assignments.add(ns);
+        tp.assignments.add(ns2);
+        myclass.topics.add(tp);
+        myclass.topics.add(new Topic());
+        myclass.topics.add(new Topic());
 
 
+        rv = v.findViewById(R.id.clwrv_parent) ;
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(llm);
 
 //         For FAB
         FloatingActionButton fab = v.findViewById(R.id.fab);
-
         if (!isteacher) {
             fab.hide();
         }
         final PopupMenu popup = new PopupMenu(getContext() , v.findViewById(R.id.fab));
         popup.getMenuInflater().inflate(R.menu.fab_menu, popup.getMenu());
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         int Iid = item.getItemId();
@@ -88,12 +91,18 @@ public class Classwork extends Fragment {
                         return true;
                     }
                 });
-
-
                 popup.show();
 
             }
         });
+
+
+
+
+
+        CLSAdapter adapter = new CLSAdapter(myclass) ;
+        rv.setAdapter(adapter);
+
 
 
         return v;
