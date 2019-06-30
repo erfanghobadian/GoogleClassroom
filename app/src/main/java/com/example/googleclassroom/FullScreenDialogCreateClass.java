@@ -90,9 +90,8 @@ public class FullScreenDialogCreateClass extends DialogFragment {
 
 
                     if(ClassName.length()!=0 && ClassRoom.length()!=0) {
-                        Class aClass = new Class(ClassName.getText().toString(), ClassRoom.getText().toString(), ClassDes.getText().toString());
                         AddClass send = new AddClass(getActivity() , user);
-                        send.execute("AddClass", user.username, user.password, aClass);
+                        send.execute("AddClass", user.username, user.password, ClassName.getText().toString(), ClassRoom.getText().toString(), ClassDes.getText().toString());
                         dismiss();
                     }
                     else
@@ -123,7 +122,7 @@ public class FullScreenDialogCreateClass extends DialogFragment {
 }
 
 
-class AddClass extends AsyncTask<Object,Void , String> {
+class AddClass extends AsyncTask<String,Void , String> {
     Socket s ;
     ObjectOutputStream oos ;
     ObjectInputStream ois ;
@@ -139,19 +138,19 @@ class AddClass extends AsyncTask<Object,Void , String> {
     }
 
     @Override
-    protected String doInBackground(Object... input) {
+    protected String doInBackground(String... input) {
         try {
             s = new Socket("10.0.2.2" , 8080);
             oos = new ObjectOutputStream(s.getOutputStream());
             ois = new ObjectInputStream(s.getInputStream());
-            String[] strings = {(String) input[0] , (String)input[1] , (String)input[2]};
-            oos.writeObject(strings);
+            oos.writeObject(input);
             oos.flush();
-            oos.writeObject(input[3]);
             oos.flush();
             answer = ois.readBoolean();
             System.out.println(answer);
-            myclass = (Class) input[3] ;
+            myclass = (Class) ois.readObject() ;
+
+            System.out.println(myclass.name);
 
 
 
@@ -175,7 +174,7 @@ class AddClass extends AsyncTask<Object,Void , String> {
 
         if (answer) {
             Intent intent = new Intent(activity, ClassActivity.class);
-            intent.putExtra("class" , myclass) ;
+            intent.putExtra("myclass" , myclass) ;
             intent.putExtra("user" , user) ;
             activity.startActivity(intent);
 

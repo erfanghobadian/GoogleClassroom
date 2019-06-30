@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,12 +63,35 @@ public class Classwork extends Fragment {
         if (!isteacher) {
             fab.hide();
         }
+        final PopupMenu popup = new PopupMenu(getContext() , v.findViewById(R.id.fab));
+        popup.getMenuInflater().inflate(R.menu.fab_menu, popup.getMenu());
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int Iid = item.getItemId();
+                        if (Iid == R.id.Create_Ass) {
+
+                            popup.dismiss();
+                        }
+                        else if (Iid == R.id.Create_Topic) {
+
+                            popup.dismiss();
+
+                        }
+                        return true;
+                    }
+                });
+
+
+                popup.show();
+
             }
         });
 

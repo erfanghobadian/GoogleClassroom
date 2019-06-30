@@ -48,7 +48,7 @@ public class ClassActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
-        myclass = (Class) getIntent().getSerializableExtra("class");
+        myclass = (Class) getIntent().getSerializableExtra("myclass");
         user = (User) getIntent().getSerializableExtra("user") ;
 
 
