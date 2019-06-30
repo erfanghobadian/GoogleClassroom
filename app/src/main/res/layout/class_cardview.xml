@@ -32,8 +32,8 @@
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@null"
                 android:layout_gravity="right"
                 android:layout_marginRight="30dp"
@@ -44,26 +44,21 @@
                 android:id="@+id/cardText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="56dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="60dp"
                 android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/className"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_wrapHeight="71"
-                tools:layout_conversion_wrapWidth="0" />
+                />
 
             <TextView
                 android:id="@+id/classDes"
@@ -81,9 +76,9 @@
                 android:id="@+id/classRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="284dp"
-                android:layout_marginLeft="284dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="60dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="40dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
