@@ -47,7 +47,7 @@ public class Classwork extends Fragment {
     }
 
     void intadaper() {
-        CLSAdapter adapter = new CLSAdapter(myclass) ;
+        CLSAdapter adapter = new CLSAdapter(myclass , user , this) ;
         rv.setAdapter(adapter);
     }
 
@@ -67,6 +67,10 @@ public class Classwork extends Fragment {
         System.out.println(myclass.code);
         setHasOptionsMenu(true);
 
+
+        myclass.topics.get(0).assignments.add(new Assignment());
+        myclass.topics.get(0).assignments.add(new Assignment());
+        myclass.topics.get(0).assignments.add(new Assignment());
 
 
 
@@ -233,6 +237,7 @@ class RefreshCLW extends AsyncTask <String , Void , String> {
 
             user = (User)ois.readObject();
             myclass = (Class)ois.readObject();
+
 
 
             oos.close();

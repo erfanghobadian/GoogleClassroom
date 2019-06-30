@@ -23,10 +23,10 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/primaryLightColor" />
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButtonPC"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@null"
             android:layout_marginLeft="20dp"
             android:src="@drawable/ic_more_vert_black_24dp" />
@@ -46,7 +46,6 @@
             android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
             tools:layout_editor_absoluteX="74dp" />
