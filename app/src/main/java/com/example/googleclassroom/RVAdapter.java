@@ -1,6 +1,8 @@
 package com.example.googleclassroom ;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
@@ -40,10 +45,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
 
     List<Class> aClasses;
      User user ;
+     boolean check = false ;
 
-    RVAdapter(User user){
+     MainActivity activity ;
+    RVAdapter(User user , MainActivity activity){
         this.user = user ;
         this.aClasses = user.classes;
+        this.activity = activity ;
     }
 
     @Override
@@ -64,7 +72,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
         personViewHolder.className.setText(cls.name);
         personViewHolder.classDes.setText(cls.des);
         personViewHolder.classRoom.setText(cls.room);
-        boolean check = false ;
         for (User usr:cls.teachers) {
             if (usr.username.equals(user.username))
                 check = true ;
@@ -77,7 +84,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
         personViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v );
+                showPopupMenu(v , cls );
             }
         });
 
@@ -108,17 +115,71 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
     }
 
 
-    private void showPopupMenu(View view) {
+    private void showPopupMenu(final View view , final Class cls) {
         // inflate menu
-        PopupMenu popup = new PopupMenu(view.getContext(),view );
+        final PopupMenu popup = new PopupMenu(view.getContext(),view );
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.add_menu, popup.getMenu());
+        inflater.inflate(R.menu.cart_menu, popup.getMenu());
+        if (check) {
+            popup.getMenu().findItem(R.id.unenroll).setVisible(false);
+        }
+        else {
+            popup.getMenu().findItem(R.id.changeinfo).setVisible(false);
+        }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+                int id= menuItem.getItemId();
+                if (id == R.id.unenroll) {
+                    popup.dismiss();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                    builder.setMessage("Unenroll ??").setTitle("Sure ?");
+
+                    builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            new Thread(){
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    try {
+                                        Socket s = new Socket("10.0.2.2" , 8080);
+                                        ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                                        ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+                                        String[] a = {"RemoveFromClass" , user.username , user.password , cls.code  };
+                                        oos.writeObject(a);
+                                        oos.flush();
+
+
+                                        Refresh refresh = new Refresh(activity);
+                                        refresh.execute("Refresh" , user.username , user.password);
+
+                                        oos.close();
+                                        ois.close();
+                                        s.close();
+
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }.start();
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                if (id == R.id.changeinfo) {}
                 return false;
             }
         });
         popup.show();
     }
+
 }
