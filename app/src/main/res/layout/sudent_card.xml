@@ -12,23 +12,23 @@
     android:layout_marginBottom="10dp"
     >
     <TextView
-        android:id="@+id/child_textView"
+        android:id="@+id/studentname"
         android:layout_width="300dp"
         android:layout_marginLeft="30dp"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:text="TextView"
         android:textColor="#000"
         android:textStyle="bold"
         android:drawableLeft="@drawable/ic_assignment_blue_24dp" />
 
     <ImageButton
-        android:id="@+id/imageButtonCC"
+        android:id="@+id/estudentBTN"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:background="@null"
         android:src="@drawable/ic_more_vert_black_24dp" />
+
 </LinearLayout>
 
 </androidx.cardview.widget.CardView>

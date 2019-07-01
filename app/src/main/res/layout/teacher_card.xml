@@ -3,32 +3,26 @@
 
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@null">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
+    android:background="@null"
     >
     <TextView
-        android:id="@+id/child_textView"
+        android:id="@+id/teachername"
         android:layout_width="300dp"
         android:layout_marginLeft="30dp"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:text="TextView"
         android:textColor="#000"
         android:textStyle="bold"
         android:drawableLeft="@drawable/ic_assignment_blue_24dp" />
 
-    <ImageButton
-        android:id="@+id/imageButtonCC"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="@null"
-        android:src="@drawable/ic_more_vert_black_24dp" />
 </LinearLayout>
 
 </androidx.cardview.widget.CardView>

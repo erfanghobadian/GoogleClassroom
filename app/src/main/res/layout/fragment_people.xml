@@ -1,13 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".People">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="People" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@null">
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Teachers"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/primaryLightColor" />
+        <ImageButton
+            android:id="@+id/teacherBTN"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_more_vert_black_24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/khat"
+        android:layout_marginTop="30dp"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:background="@color/primaryLightColor">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@null">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/teachrv"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@null">
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Student"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/primaryLightColor" />
+        <ImageButton
+            android:id="@+id/studentBTN"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_more_vert_black_24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="2dp"
+        android:orientation="vertical"
+        android:background="@color/primaryLightColor">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@null">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/studentsrv"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

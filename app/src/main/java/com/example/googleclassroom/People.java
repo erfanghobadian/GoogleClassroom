@@ -2,13 +2,16 @@ package com.example.googleclassroom;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 
 /**
@@ -16,10 +19,25 @@ import android.view.ViewGroup;
  */
 public class People extends Fragment {
 
+
+
     boolean isteacher = false ;
 
     User user ;
     Class myclass ;
+    RecyclerView rvteacher ;
+    RecyclerView rvstudent ;
+    ImageButton teacherbtn ;
+    ImageButton studentbtn ;
+
+
+    void intadaper() {
+        TCHAdapter adapter = new TCHAdapter(myclass , user , this) ;
+        rvteacher.setAdapter(adapter);
+        STUAdapter stuAdapter = new STUAdapter(myclass, user , this);
+        rvstudent.setAdapter(stuAdapter);
+
+    }
 
 
     public People() {
@@ -43,6 +61,36 @@ public class People extends Fragment {
         setHasOptionsMenu(true);
 
 
+        studentbtn = v.findViewById(R.id.studentBTN);
+        teacherbtn = v.findViewById(R.id.teacherBTN);
+
+
+        rvteacher = v.findViewById(R.id.teachrv) ;
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rvteacher.setLayoutManager(llm);
+
+
+        rvstudent = v.findViewById(R.id.studentsrv) ;
+        LinearLayoutManager llm2 = new LinearLayoutManager(getContext());
+        rvteacher.setLayoutManager(llm2);
+
+        intadaper();
+
+
+        teacherbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        studentbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 
