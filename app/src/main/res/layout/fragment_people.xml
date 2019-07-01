@@ -9,10 +9,17 @@
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@null">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/pro"
+            android:id="@+id/dayere1"
+            />
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -26,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_person_add_black_24dp" />
+            android:layout_marginLeft="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,10 +60,17 @@
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@null">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/dayere2"
+            android:src="@drawable/pro"
+            />
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
