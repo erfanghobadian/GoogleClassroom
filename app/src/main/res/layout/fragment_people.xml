@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".People">
+    tools:context=".People"
+    android:elevation="0dp">
 
 
     <LinearLayout
@@ -91,7 +92,7 @@
             android:id="@+id/studentsrv"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
