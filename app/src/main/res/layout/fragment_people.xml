@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".People"
-    android:elevation="0dp">
+    android:elevation="0dp"
+    android:background="@color/white">
 
 
     <LinearLayout
@@ -13,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@null"
+        android:elevation="0dp">
         android:background="@null">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="25dp"
@@ -42,19 +45,22 @@
         android:layout_marginTop="10dp"
         android:layout_height="2dp"
         android:orientation="vertical"
-        android:background="@color/primaryLightColor">
+        android:background="@color/primaryLightColor"
+        android:elevation="0dp">
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@null">
+        android:background="@null"
+        android:elevation="0dp">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/teachrv"
         android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:elevation="0dp"/>
 
     </LinearLayout>
 
@@ -105,7 +111,8 @@
             android:id="@+id/studentsrv"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:elevation="0dp"/>
 
     </LinearLayout>
 
