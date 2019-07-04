@@ -5,12 +5,15 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -18,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
 
@@ -25,10 +29,12 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
     static class STUViewHolder extends RecyclerView.ViewHolder {
         TextView StudentName ;
         ImageButton imageButton ;
+        ImageView avatar ;
         STUViewHolder(View itemView) {
         super(itemView);
             StudentName = itemView.findViewById(R.id.studentname);
             imageButton = itemView.findViewById(R.id.estudentBTN);
+            avatar = itemView.findViewById(R.id.studentimg);
         }
     }
 
@@ -61,6 +67,10 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
     public void onBindViewHolder( STUViewHolder stuViewHolder, int i) {
         final User student = students.get(i);
         stuViewHolder.StudentName.setText(student.username);
+        byte[] imgByte = student.avatar;
+        System.out.println(Arrays.toString(imgByte));
+        Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
+        stuViewHolder.avatar.setImageBitmap(bmp);
         System.out.println(student.username);
         stuViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,16 +109,13 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
                                 public void run() {
                                     super.run();
                                     try {
-                                        Socket s = new Socket("10.0.2.2" , 8080);
+                                        Socket s = new Socket(view.getResources().getString(R.string.ip), 8080);
                                         ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
                                         ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 
                                         String[] a = {"RemoveFromClass" , student.username , student.password , cls.code  };
                                         oos.writeObject(a);
                                         oos.flush();
-
-
-
 
                                         oos.close();
                                         ois.close();

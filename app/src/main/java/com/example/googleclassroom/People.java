@@ -125,10 +125,60 @@ public class People extends Fragment {
                 builder.setView(vi).setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for (User st:myclass.students) {
-                            if (st.username.equals(studentusername.getText().toString())){
+                        boolean stinclass = false ;
+                        for (User tc:myclass.teachers) {
+                            if (tc.username.equals(studentusername.getText().toString())){
+                                stinclass = true ;
+                            }
+                            for (User st:myclass.students) {
+                                if (st.username.equals(studentusername.getText().toString())){
+                                    stinclass = true ;
+                                }
+                            }
+                            if (stinclass) {
                                 Toast.makeText(getContext(), "Student Already in Class", Toast.LENGTH_SHORT).show();
                             }
+                            else {
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        try {
+                                            Socket s = new Socket(getResources().getString(R.string.ip) , 8080);
+                                            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                                            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+                                            System.out.println("imHere");
+                                            String[] a = {"AddStudentToClass" , studentusername.getText().toString() , myclass.code};
+                                            System.out.println(a[0]);
+                                            oos.writeObject(a);
+                                            oos.flush();
+                                            boolean answer = ois.readBoolean();
+                                            if (!answer){
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        System.out.println("Hey");
+                                                        Toast.makeText(getContext(), "Student Not Found", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                });
+                                            }
+
+                                            RefreshPOE refreshPOE = new RefreshPOE(People.this);
+                                            refreshPOE.execute("RefreshCLW", user.username, user.password, myclass.code) ;
+
+
+                                            oos.close();
+                                            ois.close();
+                                            s.close();
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }.start();
+                        }
                         }
 
                     }
@@ -191,7 +241,7 @@ class RefreshPOE extends AsyncTask<String , Void , String> {
     @Override
     protected String doInBackground(String... strings) {
         try {
-            s = new Socket("10.0.2.2" , 8080);
+            s = new Socket(activityReference.get().getResources().getString(R.string.ip) , 8080);
             oos = new ObjectOutputStream(s.getOutputStream());
             ois = new ObjectInputStream(s.getInputStream());
             oos.writeObject(strings);

@@ -143,7 +143,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
                                 public void run() {
                                     super.run();
                                     try {
-                                        Socket s = new Socket("10.0.2.2" , 8080);
+                                        Socket s = new Socket(activity.getResources().getString(R.string.ip) , 8080);
                                         ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
                                         ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 

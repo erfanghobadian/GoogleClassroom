@@ -53,7 +53,7 @@
         android:id="@+id/teachrv"
         android:background="@null"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:elevation="0dp"/>
 
     </LinearLayout>
@@ -98,7 +98,7 @@
             android:id="@+id/studentsrv"
             android:background="@null"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:elevation="0dp"/>
 
     </LinearLayout>

@@ -112,21 +112,23 @@ public class Classwork extends Fragment {
                                             public void run() {
                                                 super.run();
                                                 try {
-                                                    Socket s = new Socket("10.0.2.2", 8080);
+                                                    Socket s = new Socket(getResources().getString(R.string.ip), 8080);
                                                     ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
                                                     ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 
+                                                    System.out.println("Hello");
                                                     String[] a = {"CreateTopic", myclass.code ,  topicname.getText().toString()};
                                                     System.out.println(a[1] +" "+ a[2]);
                                                     oos.writeObject(a);
                                                     oos.flush();
 
-                                                    RefreshCLW refreshCLW = new RefreshCLW(Classwork.this);
-                                                    refreshCLW.execute("RefreshCLW", user.username, user.password, myclass.code);
+
 
                                                     oos.close();
                                                     ois.close();
                                                     s.close();
+                                                    RefreshCLW refreshCLW = new RefreshCLW(Classwork.this);
+                                                    refreshCLW.execute("RefreshCLW", user.username, user.password, myclass.code);
 
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -223,7 +225,7 @@ class RefreshCLW extends AsyncTask <String , Void , String> {
     @Override
     protected String doInBackground(String... strings) {
         try {
-            s = new Socket("10.0.2.2" , 8080);
+            s = new Socket(activityReference.get().getResources().getString(R.string.ip) , 8080);
             oos = new ObjectOutputStream(s.getOutputStream());
             ois = new ObjectInputStream(s.getInputStream());
             oos.writeObject(strings);

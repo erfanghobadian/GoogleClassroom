@@ -21,12 +21,8 @@ public class ClassActivity extends AppCompatActivity{
 
 
 
-
-    private DrawerLayout mdrawerLayout ;
-    private ActionBarDrawerToggle mToggle ;
     private Toolbar mToolbar ;
-    private ImageView imageView ;
-    private TextView usernameTextView ;
+
 
     Class myclass ;
     User user ;
@@ -65,7 +61,6 @@ public class ClassActivity extends AppCompatActivity{
 
 
 
-
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
 
@@ -94,11 +89,7 @@ public class ClassActivity extends AppCompatActivity{
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.actionbar , menu);
-//        return true;
-//    }
+
 
 
 

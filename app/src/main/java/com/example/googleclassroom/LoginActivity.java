@@ -104,7 +104,7 @@ class LoginCheck extends AsyncTask<String,Void , String> {
     @Override
     protected String doInBackground(String... strings) {
         try {
-            s = new Socket("10.0.2.2" , 8080);
+            s = new Socket(activityReference.get().getResources().getString(R.string.ip) , 8080);
             oos = new ObjectOutputStream(s.getOutputStream());
             ois = new ObjectInputStream(s.getInputStream());
             oos.writeObject(strings);
