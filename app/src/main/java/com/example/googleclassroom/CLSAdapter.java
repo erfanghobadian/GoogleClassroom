@@ -11,8 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -162,7 +164,60 @@ public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolde
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                if (id == R.id.edit_card) {}
+                if (id == R.id.edit_card) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(activity.getContext());
+                    LayoutInflater inflater = activity.requireActivity().getLayoutInflater();
+                    View v = inflater.inflate(R.layout.dialog_create_topic, null);
+                    final EditText topicname =  v.findViewById(R.id.ctopic_name);
+                    topicname.setText(topic.name);
+                    builder.setView(v).setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (topicname.length()!=0) {
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        try {
+                                            Socket s = new Socket(activity.getResources().getString(R.string.ip), 8080);
+                                            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                                            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+
+                                            System.out.println("Hello");
+                                            String[] a = {"EditTopic", myclass.code ,topic.name ,   topicname.getText().toString()};
+                                            System.out.println(a[1] +" "+ a[2]);
+                                            oos.writeObject(a);
+                                            oos.flush();
+
+
+
+                                            oos.close();
+                                            ois.close();
+                                            s.close();
+                                            RefreshCLW refreshCLW = new RefreshCLW(activity);
+                                            refreshCLW.execute("RefreshCLW", user.username, user.password, myclass.code);
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }.start();
+                            }
+                            else
+                                Toast.makeText(activity.getContext(), "Topic Name is Empty", Toast.LENGTH_SHORT).show();
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
                 return false;
             }
         });

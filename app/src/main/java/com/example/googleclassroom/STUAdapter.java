@@ -65,13 +65,23 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
 
     @Override
     public void onBindViewHolder( STUViewHolder stuViewHolder, int i) {
+
         final User student = students.get(i);
+
+        for (User usr:myclass.teachers) {
+            if (usr.username.equals(user.username))
+                check = true ;
+        }
+
         stuViewHolder.StudentName.setText(student.username);
         byte[] imgByte = student.avatar;
         System.out.println(Arrays.toString(imgByte));
         Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
         stuViewHolder.avatar.setImageBitmap(bmp);
         System.out.println(student.username);
+        if (!check){
+            stuViewHolder.imageButton.setVisibility(View.INVISIBLE);
+        }
         stuViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

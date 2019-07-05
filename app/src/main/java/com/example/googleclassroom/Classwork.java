@@ -2,17 +2,16 @@ package com.example.googleclassroom;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,27 +20,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class Classwork extends Fragment {
 
-
     boolean isteacher = false ;
-
     RecyclerView rv ;
-
     User user ;
     Class myclass ;
     public Classwork() {
-        // Required empty public constructor
+
     }
 
     void intadaper() {
@@ -51,11 +44,9 @@ public class Classwork extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_classwork, container, false) ;
-
         user = (User) getArguments().getSerializable("user");
         myclass = (Class) getArguments().getSerializable("myclass") ;
         for (User usr : myclass.teachers) {
@@ -66,11 +57,6 @@ public class Classwork extends Fragment {
         setHasOptionsMenu(true);
 
 
-
-
-
-
-
         rv = v.findViewById(R.id.clwrv_parent) ;
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
@@ -78,7 +64,7 @@ public class Classwork extends Fragment {
         intadaper();
 
 
-//         For FAB
+        // For FAB
         FloatingActionButton fab = v.findViewById(R.id.fab);
         if (!isteacher) {
             fab.hide();
@@ -92,12 +78,17 @@ public class Classwork extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         int Iid = item.getItemId();
                         if (Iid == R.id.Create_Ass) {
-
                             popup.dismiss();
+                            FullScreenDialogCreateAssignment dialog = new FullScreenDialogCreateAssignment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user" , user);
+                            bundle.putSerializable("myclass" , myclass);
+                            dialog.setArguments(bundle);
+                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                            dialog.show(ft, FullScreenDialogCreateAssignment.TAG);
                         }
                         else if (Iid == R.id.Create_Topic) {
                             popup.dismiss();
-
 
                             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -163,14 +154,11 @@ public class Classwork extends Fragment {
 
 
 
-
-
-
-
-
         return v;
 
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -198,8 +186,20 @@ public class Classwork extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id==R.id.clsaction_setting) {}
-        else if (id==R.id.clsaction_info) {}
+        if (id==R.id.clsaction_setting) {
+            FullScreenDialogClassSetting dialog = new FullScreenDialogClassSetting();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user" , user);
+            bundle.putSerializable("myclass" , myclass);
+            dialog.setArguments(bundle);
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, FullScreenDialogClassSetting.TAG);
+        }
+        else if (id==R.id.clsaction_info) {
+            Intent intent2 = new Intent(getActivity() , AboutClass.class);
+            intent2.putExtra("myclass" , myclass) ;
+            startActivity(intent2);
+        }
         else if (id==R.id.clsaction_refresh) {
             RefreshCLW refreshCLW = new RefreshCLW(Classwork.this);
             refreshCLW.execute("RefreshCLW", user.username, user.password, myclass.code);
