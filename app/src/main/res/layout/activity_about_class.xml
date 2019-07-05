@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="left"
+    android:layout_marginLeft="10dp"
+    android:gravity="left"
     tools:context=".AboutClass">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/primaryColor"
+        android:text="Class"/>
+<TextView
+    android:id="@+id/dscrp"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:textSize="18sp"
+    android:textColor="@color/primaryDarkColor"
+    android:text="Description"
+    />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/room"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/primaryDarkColor"
+        android:textStyle="bold"
+        android:text="Room"
+        />
+    <TextView
+        android:id="@+id/croom"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/primaryDarkColor"
+        android:text="content"
+        />
+
+</LinearLayout>
