@@ -33,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_height="60dp"
+        android:textColor="#000"
         android:hint="Name"
         />
     <EditText
@@ -40,11 +41,15 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
+        android:textColor="#000"
+
         android:hint="Description"/>
     <EditText
         android:id="@+id/Room"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:textColor="#000"
+
         android:layout_marginTop="10dp"
         android:hint="Room" />
 </LinearLayout>
