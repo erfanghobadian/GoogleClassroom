@@ -179,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Refresh ARefresh = new Refresh(MainActivity.this);
             ARefresh.execute("Refresh" , user.username , user.password);
         }
+        else if (id == R.id.action_about) {
+            FullScreenAboutUs dialog = new FullScreenAboutUs();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, FullScreenAboutUs.TAG);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -195,17 +200,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             NRefresh.execute("Refresh" , user.username , user.password);
 
         }
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_tools) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+
+        else if (id == R.id.action_about) {
+            FullScreenAboutUs dialog = new FullScreenAboutUs();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, FullScreenAboutUs.TAG);
+        }
+
 
         mdrawerLayout.closeDrawer(GravityCompat.START);
         return true;

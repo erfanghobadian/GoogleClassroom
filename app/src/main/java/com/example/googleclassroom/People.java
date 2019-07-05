@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -278,6 +279,9 @@ public class People extends Fragment {
             RefreshPOE refreshPOE = new RefreshPOE(this);
             refreshPOE.execute("RefreshCLW", user.username, user.password, myclass.code);
         } else if (id == R.id.pepaction_about) {
+            FullScreenAboutUs dialog = new FullScreenAboutUs();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, FullScreenAboutUs.TAG);
         } else if (id == R.id.pepaction_noti) {
         }
         return super.onOptionsItemSelected(item);

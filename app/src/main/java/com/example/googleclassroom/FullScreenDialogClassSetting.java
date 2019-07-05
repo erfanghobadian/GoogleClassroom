@@ -28,6 +28,7 @@ public class FullScreenDialogClassSetting extends DialogFragment {
     Class myclass ;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +46,18 @@ public class FullScreenDialogClassSetting extends DialogFragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         toolbar.setTitle("Class Setting");
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
+        EditText ClassName ;
+        EditText ClassDes ;
+        EditText ClassRoom ;
+
+
 
 
 
@@ -87,6 +93,67 @@ public class FullScreenDialogClassSetting extends DialogFragment {
             dialog.getWindow().setWindowAnimations(R.style.AppTheme_Slide);
 
         }
+    }
+}
+
+
+class EditClass extends AsyncTask<String , Void , String>{
+    Socket s ;
+    ObjectOutputStream oos ;
+    ObjectInputStream ois ;
+    DataInputStream dis;
+    Boolean answer ;
+    Class myclass ;
+    User user ;
+    WeakReference<FragmentActivity> activityReference ;
+
+    EditClass(FragmentActivity context , User user) {
+        activityReference = new WeakReference<>(context);
+        this.user = user ;
+    }
+
+    @Override
+    protected String doInBackground(String... input) {
+        try {
+            s = new Socket(activityReference.get().getResources().getString(R.string.ip) , 8080);
+            oos = new ObjectOutputStream(s.getOutputStream());
+            ois = new ObjectInputStream(s.getInputStream());
+            oos.writeObject(input);
+            oos.flush();
+            oos.flush();
+            answer = ois.readBoolean();
+            System.out.println(answer);
+            myclass = (Class) ois.readObject() ;
+
+            System.out.println(myclass.name);
+
+
+
+
+            oos.close();
+            ois.close();
+            s.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+
+        FragmentActivity activity = activityReference.get();
+        if (activity== null || activity.isFinishing()) return;
+
+        if (answer) {
+
+
+        }else {
+
+        }
+
     }
 }
 

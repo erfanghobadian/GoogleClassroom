@@ -204,7 +204,11 @@ public class Classwork extends Fragment {
             RefreshCLW refreshCLW = new RefreshCLW(Classwork.this);
             refreshCLW.execute("RefreshCLW", user.username, user.password, myclass.code);
         }
-        else if (id==R.id.clsaction_about) {}
+        else if (id==R.id.clsaction_about) {
+            FullScreenAboutUs dialog = new FullScreenAboutUs();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, FullScreenAboutUs.TAG);
+        }
         else if (id==R.id.clsaction_noti) {}
         return super.onOptionsItemSelected(item);
     }
