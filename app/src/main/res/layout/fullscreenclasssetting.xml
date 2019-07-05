@@ -28,6 +28,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/primaryLightColor"
+        android:visibility="visible">
     <EditText
         android:id="@+id/Name"
         android:layout_width="match_parent"
@@ -36,6 +41,12 @@
         android:textColor="#000"
         android:hint="Name"
         />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/primaryLightColor"
+        android:visibility="visible">
     <EditText
         android:id="@+id/dscrp"
         android:layout_width="match_parent"
@@ -44,6 +55,12 @@
         android:textColor="#000"
 
         android:hint="Description"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/primaryLightColor"
+        android:visibility="visible">
     <EditText
         android:id="@+id/Room"
         android:layout_width="match_parent"
@@ -52,6 +69,7 @@
 
         android:layout_marginTop="10dp"
         android:hint="Room" />
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
