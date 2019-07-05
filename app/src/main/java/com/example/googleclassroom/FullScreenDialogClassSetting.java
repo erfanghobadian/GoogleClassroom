@@ -1,6 +1,8 @@
 package com.example.googleclassroom;
 
 import android.app.Dialog;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -53,9 +56,27 @@ public class FullScreenDialogClassSetting extends DialogFragment {
             }
         });
 
-        EditText ClassName ;
-        EditText ClassDes ;
-        EditText ClassRoom ;
+        EditText ClassName = view.findViewById(R.id.settingclsname) ;
+        EditText ClassDes  = view.findViewById(R.id.settingdscrp);
+        EditText ClassRoom = view.findViewById(R.id.settingRoom) ;
+        TextView ClassCode = view.findViewById(R.id.settingCode) ;
+
+
+        ClassName.setText(myclass.name);
+        ClassDes.setText(myclass.des);
+        ClassRoom.setText(myclass.room);
+        ClassCode.setText("Class Code : " + myclass.code);
+        ClassCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(myclass.code);
+                Toast.makeText(getContext(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
 
 

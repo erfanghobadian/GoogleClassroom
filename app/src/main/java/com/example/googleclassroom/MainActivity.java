@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        else if (id == R.id.action_about) {
+        else if (id == R.id.nav_about) {
             FullScreenAboutUs dialog = new FullScreenAboutUs();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             dialog.show(ft, FullScreenAboutUs.TAG);

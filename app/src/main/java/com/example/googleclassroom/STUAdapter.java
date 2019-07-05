@@ -2,9 +2,11 @@ package com.example.googleclassroom;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
 
     static class STUViewHolder extends RecyclerView.ViewHolder {
         TextView StudentName ;
+        CardView stcard ;
         ImageButton imageButton ;
         ImageView avatar ;
         STUViewHolder(View itemView) {
@@ -35,6 +38,7 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
             StudentName = itemView.findViewById(R.id.studentname);
             imageButton = itemView.findViewById(R.id.estudentBTN);
             avatar = itemView.findViewById(R.id.studentimg);
+            stcard = itemView.findViewById(R.id.studentcard) ;
         }
     }
 
@@ -81,6 +85,17 @@ public class STUAdapter extends RecyclerView.Adapter<STUAdapter.STUViewHolder> {
         System.out.println(student.username);
         if (!check){
             stuViewHolder.imageButton.setVisibility(View.INVISIBLE);
+        }
+        if (check) {
+            stuViewHolder.stcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity.getActivity() , StudentActivity.class);
+                    intent.putExtra("user" , student) ;
+                    intent.putExtra("stclasas" , myclass) ;
+                    activity.startActivity(intent);
+                }
+            });
         }
         stuViewHolder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

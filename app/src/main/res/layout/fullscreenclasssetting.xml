@@ -34,13 +34,28 @@
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
         android:visibility="visible">
+        android:background="#00D11212"
+        android:baselineAligned="true"
+        android:duplicateParentState="true"
+        android:textColorHint="@color/grey"
+        android:visibility="visible"
+        app:boxBackgroundColor="#00E70404"
+        app:boxStrokeColor="@color/grey"
+        app:boxStrokeWidth="12dp"
+        app:errorEnabled="true"
+        app:helperTextEnabled="true"
+        tools:visibility="visible">
     <EditText
-        android:id="@+id/Name"
+        android:id="@+id/settingclsname"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_height="60dp"
-        android:textColor="#000"
-        android:hint="Name"
+        android:backgroundTint="@color/grey"
+        android:ems="10"
+        android:hint="Class Name"
+        android:textColor="@android:color/black"
+        android:inputType="text"
+        tools:visibility="visible"
         />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -48,13 +63,26 @@
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
         android:visibility="visible">
+        android:background="#00D11212"
+        android:baselineAligned="true"
+        android:duplicateParentState="true"
+        android:textColorHint="@color/grey"
+        android:visibility="visible"
+        app:boxBackgroundColor="#00E70404"
+        app:boxStrokeColor="@color/grey"
+        app:boxStrokeWidth="12dp"
+        app:errorEnabled="true"
+        app:helperTextEnabled="true"
+        tools:visibility="visible">
     <EditText
-        android:id="@+id/dscrp"
+        android:id="@+id/settingdscrp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#000"
-
+        android:backgroundTint="@color/grey"
+        android:ems="10"
+        android:textColor="@android:color/black"
+        android:inputType="text"
+        tools:visibility="visible"
         android:hint="Description"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -62,14 +90,27 @@
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
         android:visibility="visible">
+        android:background="#00D11212"
+        android:baselineAligned="true"
+        android:duplicateParentState="true"
+        android:textColorHint="@color/grey"
+        android:visibility="visible"
+        app:boxBackgroundColor="#00E70404"
+        app:boxStrokeColor="@color/grey"
+        app:boxStrokeWidth="12dp"
+        app:errorEnabled="true"
+        app:helperTextEnabled="true"
+        tools:visibility="visible">
     <EditText
-        android:id="@+id/Room"
+        android:id="@+id/settingRoom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textColor="#000"
-
-        android:layout_marginTop="10dp"
-        android:hint="Room" />
+        android:backgroundTint="@color/grey"
+        android:ems="10"
+        android:textColor="@android:color/black"
+        android:inputType="text"
+        tools:visibility="visible"
+        android:hint="Class Room" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
     <LinearLayout
@@ -86,7 +127,7 @@
             />
         <TextView
             android:layout_marginLeft="10dp"
-            android:id="@+id/Code"
+            android:id="@+id/settingCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
