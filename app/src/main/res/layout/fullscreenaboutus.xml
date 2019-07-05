@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@null">
+        android:background="@color/cardview_dark_background">
         <LinearLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -36,12 +36,13 @@
              android:layout_width="150dp"
              android:layout_height="150dp"
              app:civ_border_color="#000"
-             android:src="@drawable/photo_2019-05-22_17-24-50"/>
+             android:layout_marginRight="10dp"
+             android:src="@drawable/erfan"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 app:civ_border_color="#000"
-                android:src="@drawable/photo_2018-12-15_00-21-00"/>
+                android:src="@drawable/amir"/>
         </LinearLayout>
 
     </LinearLayout>
