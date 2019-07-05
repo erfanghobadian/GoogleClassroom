@@ -31,7 +31,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/primaryLightColor"
+        android:textColorHint="@color/grey"
         android:visibility="visible">
     <EditText
         android:id="@+id/Name"
@@ -45,7 +45,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/primaryLightColor"
+        android:textColorHint="@color/grey"
         android:visibility="visible">
     <EditText
         android:id="@+id/dscrp"
@@ -59,7 +59,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/primaryLightColor"
+        android:textColorHint="@color/grey"
         android:visibility="visible">
     <EditText
         android:id="@+id/Room"
