@@ -13,18 +13,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,13 +29,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +42,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
-public class FullScreenDialogCreateAssignment extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+public class FullScreenDialogEditAssignment extends DialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
 
     byte[] attachByte ;
     String TopicName ;
@@ -69,9 +63,10 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
         DateTimeText.setText(DateTimeText.getText() + "-" + hourOfDay + ":" + minute);
     }
 
-    public static String TAG = "FullScreenDialogCreateAssignment";
+    public static String TAG = "FullScreenDialogEditAssignment";
     User user ;
     Class myclass ;
+    Assignment ass ;
 
 
     @Override
@@ -80,6 +75,7 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialogStyle);
         user = (User) getArguments().getSerializable("user");
         myclass = (Class) getArguments().getSerializable("myclass") ;
+        ass = (Assignment) getArguments().getSerializable("ass") ;
 
     }
 
@@ -93,7 +89,8 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
-        toolbar.setTitle("Create Assignment");
+        toolbar.setTitle("Edit Assignment");
+        System.out.println(ass.title);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +102,19 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
         final EditText AssTitle = view.findViewById(R.id.AssTitle) ;
 
 
+        AssTitle.setText(ass.title);
+        Points.setText(Integer.toString(ass.points));
+        Des.setText(ass.des);
+        year = ass.due.get(Calendar.YEAR);
+        month = ass.due.get(Calendar.MONTH);
+        day = ass.due.get(Calendar.DAY_OF_MONTH);
+        hour = ass.due.get(Calendar.HOUR_OF_DAY);
+        min = ass.due.get(Calendar.MINUTE);
+        DateTimeText.setText(day + "/" + (month + 1) + "/" + year);
+        DateTimeText.setText(DateTimeText.getText() + "-" + hour + ":" + min);
+        attachByte = ass.attach ;
+
+
 
         toolbar.inflateMenu(R.menu.assignment_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -114,7 +124,7 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
                 if (id == R.id.saveassignment) {
                     System.out.println(Arrays.toString(attachByte));
                     AddAss send = new AddAss(getActivity(), user , attachByte) ;
-                    send.execute("CreateAssignment" , myclass.code , TopicName , AssTitle.getText().toString() , Integer.toString(year), Integer.toString(month),Integer.toString(day),Integer.toString(hour),Integer.toString(min) ,Des.getText().toString() , Points.getText().toString() );
+                    send.execute("EditAssignment" , myclass.code , TopicName , AssTitle.getText().toString() , Integer.toString(year), Integer.toString(month),Integer.toString(day),Integer.toString(hour),Integer.toString(min) ,Des.getText().toString() , Points.getText().toString() , ass.topic.name , ass.title );
                     dismiss();
                 }
                 else if (id == R.id.attachassignment) {
@@ -137,8 +147,8 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
                 int day = c.get(Calendar.DAY_OF_MONTH);
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
-                DatePickerDialog Date = new DatePickerDialog(getActivity() , FullScreenDialogCreateAssignment.this,year,month,day);
-                TimePickerDialog Time = new TimePickerDialog(getActivity(), FullScreenDialogCreateAssignment.this, hour, minute,
+                DatePickerDialog Date = new DatePickerDialog(getActivity() , FullScreenDialogEditAssignment.this,year,month,day);
+                TimePickerDialog Time = new TimePickerDialog(getActivity(), FullScreenDialogEditAssignment.this, hour, minute,
                         DateFormat.is24HourFormat(getActivity()));
                 Time.show();
                 Date.show();
@@ -150,6 +160,7 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
         Spinner spinner = view.findViewById(R.id.topic_spinner);
 
         ArrayList<String> topicsName  = new ArrayList<>() ;
+
         for (Topic t : myclass.topics) {
             topicsName.add(t.name) ;
         }
@@ -158,7 +169,12 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, topicsName);
         spinner.setAdapter(dataAdapter);
-
+        for (int i = 0 ; i <myclass.topics.size() ; i++) {
+            if (myclass.topics.get(i).name.equals(ass.topic.name)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
 
 
 
@@ -210,11 +226,11 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
 
 
                 if (options[item].equals("Take Photo")) {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
 
                 } else if (options[item].equals("Choose from Gallery")) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto , 1);
 
                 } else if (options[item].equals("Cancel")) {
@@ -266,7 +282,7 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
 }
 
 
-class AddAss extends AsyncTask<String ,Void , String> {
+class EditAss extends AsyncTask<String ,Void , String> {
     Socket s ;
     ObjectOutputStream oos ;
     ObjectInputStream ois ;
@@ -275,7 +291,7 @@ class AddAss extends AsyncTask<String ,Void , String> {
     User user ;
     WeakReference<FragmentActivity> activityReference ;
 
-    AddAss(FragmentActivity context , User user , byte[] attach) {
+    EditAss(FragmentActivity context , User user , byte[] attach) {
         activityReference = new WeakReference<>(context);
         this.user = user ;
         this.attach =attach ;

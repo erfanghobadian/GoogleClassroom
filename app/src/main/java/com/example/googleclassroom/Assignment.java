@@ -10,4 +10,5 @@ public class Assignment implements Serializable {
     int points ;
     byte[] attach ;
     Calendar due ;
+    Topic topic;
 }
