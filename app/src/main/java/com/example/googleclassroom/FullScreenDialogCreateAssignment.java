@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -113,9 +114,14 @@ public class FullScreenDialogCreateAssignment extends DialogFragment implements 
                 int id = menuItem.getItemId();
                 if (id == R.id.saveassignment) {
                     System.out.println(Arrays.toString(attachByte));
-                    AddAss send = new AddAss(getActivity(), user , attachByte) ;
-                    send.execute("CreateAssignment" , myclass.code , TopicName , AssTitle.getText().toString() , Integer.toString(year), Integer.toString(month),Integer.toString(day),Integer.toString(hour),Integer.toString(min) ,Des.getText().toString() , Points.getText().toString() );
-                    dismiss();
+                    if (AssTitle.length()!=0 && DateTimeText.length()!=0 && Points.length()!=0) {
+                        AddAss send = new AddAss(getActivity(), user, attachByte);
+                        send.execute("CreateAssignment", myclass.code, TopicName, AssTitle.getText().toString(), Integer.toString(year), Integer.toString(month), Integer.toString(day), Integer.toString(hour), Integer.toString(min), Des.getText().toString(), Points.getText().toString());
+                        dismiss();
+                    }
+                    else {
+                        Toast.makeText(getContext(), "Fields are Empty", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else if (id == R.id.attachassignment) {
                     selectImage(getContext());

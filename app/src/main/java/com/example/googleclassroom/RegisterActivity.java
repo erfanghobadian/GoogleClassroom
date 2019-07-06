@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,18 +53,21 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
-        // Check Username is Empty or NOT
-        UsernameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        UsernameText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (UsernameText.length() ==0) {
                     UsernameText.setError("Empty");
                     usernameL = true;
                 }
                 else
                     UsernameText.setError(null);
-                    usernameL = false ;
+                usernameL = false ;
                 new Thread(){
                     @Override
                     public void run() {
@@ -98,13 +103,25 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }.start();
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
 
+
+
         // Check Password is Empty or NOT
-        PasswordText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        PasswordText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (PasswordText.length() ==0) {
                     PasswordText.setError("Empty");
                     password =true ;
@@ -118,9 +135,14 @@ public class RegisterActivity extends AppCompatActivity {
                     PasswordText.setError(null);
                     password = false ;
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
+
 
 
 
