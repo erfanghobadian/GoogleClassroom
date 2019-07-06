@@ -36,7 +36,6 @@ public class ClassActivity extends AppCompatActivity{
 
 
         mToolbar = findViewById(R.id.class_action) ;
-        mToolbar.setTitle(myclass.name);
         setSupportActionBar(mToolbar);
 
 

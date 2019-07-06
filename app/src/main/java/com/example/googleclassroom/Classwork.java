@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentTransaction;
@@ -54,6 +56,7 @@ public class Classwork extends Fragment {
                 isteacher = true ;
         }
         System.out.println(myclass.code);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(myclass.name);
         setHasOptionsMenu(true);
 
 
@@ -256,6 +259,8 @@ class RefreshCLW extends AsyncTask <String , Void , String> {
         Classwork activity = activityReference.get();
         activity.user = user ;
         activity.myclass = myclass ;
+        ((AppCompatActivity)activity.getActivity()).getSupportActionBar().setTitle(myclass.name);
+
         activity.intadaper();
     }
 }

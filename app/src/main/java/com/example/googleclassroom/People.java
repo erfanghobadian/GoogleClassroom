@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,6 +69,8 @@ public class People extends Fragment {
             if (usr.username.equals(user.username))
                 isteacher = true;
         }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(myclass.name);
+
         setHasOptionsMenu(true);
 
 
@@ -332,6 +335,7 @@ class RefreshPOE extends AsyncTask<String, Void, String> {
         People activity = activityReference.get();
         activity.user = user;
         activity.myclass = myclass;
+        ((AppCompatActivity)activity.getActivity()).getSupportActionBar().setTitle(myclass.name);
         activity.intadaper();
     }
 }

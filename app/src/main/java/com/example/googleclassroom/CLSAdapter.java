@@ -3,9 +3,12 @@ package com.example.googleclassroom ;
 import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolder> {
@@ -79,9 +83,13 @@ public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolde
         viewHolder.TopicName.setText(topics.get(i).name);
         final Topic topic = topics.get(i) ;
 
+        for (Assignment ass:topic.assignments) {
+            System.out.println(ass.title);
+        }
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(viewHolder.itemView.getContext());
         viewHolder.mSecondaryRecyclerView.setLayoutManager(linearLayoutManager);
-        ClSAdapterChild adapterChild = new ClSAdapterChild(topics.get(i).assignments , check);
+        ClSAdapterChild adapterChild = new ClSAdapterChild(topics.get(i).assignments , check , activity , user , myclass);
         viewHolder.mSecondaryRecyclerView.setAdapter(adapterChild);
 
         for (User usr:myclass.teachers) {
@@ -89,6 +97,9 @@ public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolde
                 check = true ;
         }
         if (!check) {
+            viewHolder.imageButton.setVisibility(View.INVISIBLE);
+        }
+        if (topic.name.equals("No Topic")) {
             viewHolder.imageButton.setVisibility(View.INVISIBLE);
         }
 
@@ -236,28 +247,50 @@ public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolde
 
 class ClSAdapterChild extends RecyclerView.Adapter<ClSAdapterChild.SecondViewHolder> {
     public static class SecondViewHolder extends RecyclerView.ViewHolder {
-        ImageButton imageButton ;
+        TextView assTitle ;
+        TextView assDateTime ;
+        CardView cardView ;
         public SecondViewHolder(View view) {
             super(view);
-            imageButton = view.findViewById(R.id.imageButtonCC);
+            assTitle = view.findViewById(R.id.asstitle) ;
+            assDateTime = view.findViewById(R.id.DateTimeAss) ;
+            cardView = view.findViewById(R.id.clwchild_card) ;
         }
     }
 
     boolean check ;
     ArrayList<Assignment> assignments ;
-
-    ClSAdapterChild(ArrayList<Assignment> assignments , boolean check) {
+    Classwork activity ;
+    User user  ;
+    Class myclass;
+    ClSAdapterChild(ArrayList<Assignment> assignments , boolean check , Classwork classwork , User user , Class myclass) {
         this.assignments = assignments ;
         this.check = check ;
+        this.activity = classwork ;
+        this.user = user ;
+        this.myclass = myclass ;
+
     }
 
     @Override
-    public void onBindViewHolder( SecondViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final SecondViewHolder viewHolder, int i) {
+        final Assignment assignment = assignments.get(i);
 
-        if (check) {
-            viewHolder.imageButton.setVisibility(View.INVISIBLE);
-        }
+        viewHolder.assTitle.setText(assignment.title);
+        viewHolder.assDateTime.setText(assignment.due.get(Calendar.DAY_OF_MONTH) + "/" + (assignment.due.get(Calendar.MONTH)+ 1) + "/" + assignment.due.get(Calendar.YEAR));
+        viewHolder.assDateTime.setText(viewHolder.assDateTime.getText() + "-" + assignment.due.get(Calendar.HOUR_OF_DAY) + ":" +assignment.due.get(Calendar.MINUTE));
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity.getActivity() , AssignmentActivity.class) ;
+                intent.putExtra("user" , user );
+                intent.putExtra("class" , myclass );
+                intent.putExtra("ass" , assignment );
+                activity.startActivity(intent);
 
+
+            }
+        });
     }
     @Override
     public SecondViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {

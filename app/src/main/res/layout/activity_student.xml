@@ -26,13 +26,13 @@
         android:gravity="center">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/pic"
+            android:id="@+id/picstudent"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/pro"
             />
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/namest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"

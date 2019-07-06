@@ -3,9 +3,13 @@ package com.example.googleclassroom;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class StudentActivity extends AppCompatActivity {
 
@@ -19,6 +23,15 @@ public class StudentActivity extends AppCompatActivity {
 
         myclass = (Class) getIntent().getSerializableExtra("stclass");
         student = (User) getIntent().getSerializableExtra("user");
+
+        TextView StudentName = findViewById(R.id.namest);
+        ImageView avatar = findViewById(R.id.picstudent);
+
+        byte[] imgByte = student.avatar ;
+        Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
+        avatar.setImageBitmap(bmp);
+        StudentName.setText(student.username);
+
 
         Toolbar toolbar = findViewById(R.id.studentaction) ;
         toolbar.setTitle("");

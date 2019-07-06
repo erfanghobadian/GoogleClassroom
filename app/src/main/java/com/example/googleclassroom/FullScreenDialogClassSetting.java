@@ -56,10 +56,10 @@ public class FullScreenDialogClassSetting extends DialogFragment {
             }
         });
 
-        EditText ClassName = view.findViewById(R.id.settingclsname) ;
-        EditText ClassDes  = view.findViewById(R.id.settingdscrp);
-        EditText ClassRoom = view.findViewById(R.id.settingRoom) ;
-        TextView ClassCode = view.findViewById(R.id.settingCode) ;
+        final EditText ClassName = view.findViewById(R.id.settingclsname) ;
+        final EditText ClassDes  = view.findViewById(R.id.settingdscrp);
+        final EditText ClassRoom = view.findViewById(R.id.settingRoom) ;
+        final TextView ClassCode = view.findViewById(R.id.settingCode) ;
 
 
         ClassName.setText(myclass.name);
@@ -89,7 +89,8 @@ public class FullScreenDialogClassSetting extends DialogFragment {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 int id = menuItem.getItemId();
                 if (id == R.id.saveMenu) {
-
+                    EditClass sendData = new EditClass(FullScreenDialogClassSetting.this , user );
+                    sendData.execute("EditClass" , myclass.code , ClassName.getText().toString() , ClassDes.getText().toString() , ClassRoom.getText().toString());
                 }
                 return false;
             }
@@ -126,11 +127,12 @@ class EditClass extends AsyncTask<String , Void , String>{
     Boolean answer ;
     Class myclass ;
     User user ;
-    WeakReference<FragmentActivity> activityReference ;
+    WeakReference<FullScreenDialogClassSetting> activityReference ;
 
-    EditClass(FragmentActivity context , User user) {
+    EditClass(FullScreenDialogClassSetting context , User user ) {
         activityReference = new WeakReference<>(context);
         this.user = user ;
+
     }
 
     @Override
@@ -149,8 +151,6 @@ class EditClass extends AsyncTask<String , Void , String>{
             System.out.println(myclass.name);
 
 
-
-
             oos.close();
             ois.close();
             s.close();
@@ -164,16 +164,9 @@ class EditClass extends AsyncTask<String , Void , String>{
 
     @Override
     protected void onPostExecute(String s) {
-
-        FragmentActivity activity = activityReference.get();
-        if (activity== null || activity.isFinishing()) return;
-
-        if (answer) {
-
-
-        }else {
-
-        }
+        FullScreenDialogClassSetting activity = activityReference.get();
+        activity.myclass = myclass ;
+        activity.dismiss();
 
     }
 }

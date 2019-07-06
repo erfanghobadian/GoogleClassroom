@@ -40,8 +40,6 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/grey"
-        android:visibility="visible">
         android:background="#00D11212"
         android:baselineAligned="true"
         android:duplicateParentState="true"
@@ -70,12 +68,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
-        android:visibility="visible">
+        android:visibility="visible"
         android:background="#00D11212"
         android:baselineAligned="true"
         android:duplicateParentState="true"
-        android:textColorHint="@color/grey"
-        android:visibility="visible"
         app:boxBackgroundColor="#00E70404"
         app:boxStrokeColor="@color/grey"
         app:boxStrokeWidth="12dp"
@@ -97,12 +93,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/grey"
-        android:visibility="visible">
+        android:visibility="visible"
         android:background="#00D11212"
         android:baselineAligned="true"
         android:duplicateParentState="true"
-        android:textColorHint="@color/grey"
-        android:visibility="visible"
         app:boxBackgroundColor="#00E70404"
         app:boxStrokeColor="@color/grey"
         app:boxStrokeWidth="12dp"
