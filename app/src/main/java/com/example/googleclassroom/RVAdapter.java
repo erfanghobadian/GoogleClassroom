@@ -5,7 +5,10 @@ import android.content.Intent;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -175,7 +178,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ClassViewHolder> {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                if (id == R.id.changeinfo) {}
+                if (id == R.id.changeinfo) {
+                    FullScreenDialogClassSetting dialog = new FullScreenDialogClassSetting();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user" , user);
+                    bundle.putSerializable("myclass" , cls);
+                    dialog.setArguments(bundle);
+                    FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                    dialog.show(ft, FullScreenDialogClassSetting.TAG);
+                }
                 return false;
             }
         });

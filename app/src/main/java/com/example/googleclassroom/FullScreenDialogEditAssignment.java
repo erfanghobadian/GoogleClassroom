@@ -249,7 +249,7 @@ public class FullScreenDialogEditAssignment extends DialogFragment implements Da
                     if (resultCode == RESULT_OK && data != null) {
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 1, baos);
                         attachByte = baos.toByteArray();                    }
 
                     break;
@@ -265,7 +265,7 @@ public class FullScreenDialogEditAssignment extends DialogFragment implements Da
                                 try {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 1, baos);
                                     attachByte = baos.toByteArray();
                                 }catch (Exception e){e.printStackTrace();}
 

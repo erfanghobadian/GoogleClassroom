@@ -124,7 +124,6 @@ class EditClass extends AsyncTask<String , Void , String>{
     ObjectOutputStream oos ;
     ObjectInputStream ois ;
     DataInputStream dis;
-    Boolean answer ;
     Class myclass ;
     User user ;
     WeakReference<FullScreenDialogClassSetting> activityReference ;
@@ -144,8 +143,6 @@ class EditClass extends AsyncTask<String , Void , String>{
             oos.writeObject(input);
             oos.flush();
             oos.flush();
-            answer = ois.readBoolean();
-            System.out.println(answer);
             myclass = (Class) ois.readObject() ;
 
             System.out.println(myclass.name);

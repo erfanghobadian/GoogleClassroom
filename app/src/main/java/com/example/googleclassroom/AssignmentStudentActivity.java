@@ -112,6 +112,8 @@ public class AssignmentStudentActivity extends AppCompatActivity {
                             }
                         }
                     }.start();
+
+                    finish();
                 }
                 else {
                     Toast.makeText(AssignmentStudentActivity.this, "Not Time", Toast.LENGTH_SHORT).show();
@@ -211,7 +213,7 @@ public class AssignmentStudentActivity extends AppCompatActivity {
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
                         img.setImageBitmap(selectedImage);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        selectedImage.compress(Bitmap.CompressFormat.JPEG, 1, baos);
                         attachByte = baos.toByteArray();
                     }
 
@@ -231,7 +233,7 @@ public class AssignmentStudentActivity extends AppCompatActivity {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                                     img.setImageBitmap(bitmap);
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 1, baos);
                                     attachByte = baos.toByteArray();
 
                                 }catch (Exception e){e.printStackTrace();}

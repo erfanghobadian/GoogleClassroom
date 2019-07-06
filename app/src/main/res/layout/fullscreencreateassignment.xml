@@ -22,7 +22,11 @@ android:orientation="vertical"
 
 
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -43,9 +47,9 @@ android:orientation="vertical"
         android:layout_marginTop="10dp">
         <EditText
             android:id="@+id/AssTitle"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_marginTop="10dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
             android:ems="10"
             android:hint="Title"
@@ -72,9 +76,9 @@ android:orientation="vertical"
         android:layout_marginTop="10dp">
         <EditText
             android:id="@+id/AssDes"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_marginTop="10dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
             android:ems="10"
             android:hint="Description (optional)"
@@ -103,7 +107,7 @@ android:orientation="vertical"
         <EditText
             android:id="@+id/Points"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/grey"
             android:ems="5"
@@ -133,7 +137,7 @@ android:orientation="vertical"
             <EditText
                 android:id="@+id/DateTime"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/grey"
                 android:ems="5"
@@ -152,7 +156,7 @@ android:orientation="vertical"
 
 
 
-
+</LinearLayout>
 
 
 </LinearLayout>

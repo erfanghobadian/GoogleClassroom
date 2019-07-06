@@ -31,50 +31,61 @@
             android:id="@+id/desassst"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="10dp"
             />
         <TextView
             android:id="@+id/duedatest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             />
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/attachst"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:src="@color/white"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"/>
 
         <Button
             android:id="@+id/image_assst"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/buttonstyleblue"
             android:text="Choose Image" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/grey"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:background="#00D11212"
             android:baselineAligned="true"
             android:duplicateParentState="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:gravity="center"
+            android:textColorHint="@color/grey"
             android:visibility="visible"
             app:boxBackgroundColor="#00E70404"
             app:boxStrokeColor="@color/grey"
             app:boxStrokeWidth="12dp"
             app:errorEnabled="true"
             app:helperTextEnabled="true"
-            tools:visibility="visible"
-            android:layout_marginTop="10dp">
+            tools:visibility="visible">
+
 
             <EditText
                 android:id="@+id/texthomwwork"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/grey"
                 android:ems="15"
@@ -83,22 +94,29 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 tools:visibility="visible" />
-        </com.google.android.material.textfield.TextInputLayout>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
 
 
         <Button
             android:id="@+id/sendhomework"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Send" />
+            android:layout_gravity="center"
+            android:text="Send"
+            android:background="@drawable/buttonstyleblue"/>
+
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:id="@+id/mark"
             android:textSize="20sp"/>
 
     </LinearLayout>
+
 </LinearLayout>

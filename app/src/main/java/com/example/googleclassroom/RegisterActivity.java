@@ -1,8 +1,10 @@
 package com.example.googleclassroom;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +13,9 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -51,12 +56,89 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+        if (ContextCompat.checkSelfPermission(RegisterActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(RegisterActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        102);
+
+            }
+        }else {}
+
+
+
+
+
+        if (PasswordText.length() ==0) {
+            PasswordText.setError("Empty");
+            password =true ;
+        }
+
+        else if (PasswordText.length() < 6) {
+            PasswordText.setError("Password Must Be more than 5 Char");
+            password = true ;
+        }
+        else {
+            PasswordText.setError(null);
+            password = false ;
+        }
+
+        if (UsernameText.length() ==0) {
+            UsernameText.setError("Empty");
+            usernameL = true;
+        }
 
 
         UsernameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (UsernameText.length() ==0) {
+                    UsernameText.setError("Empty");
+                    usernameL = true;
+                }
+                else
+                    UsernameText.setError(null);
+                usernameL = false ;
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            Socket s = new Socket(getResources().getString(R.string.ip), 8080);
+                            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 
+                            String[] a = {"UserNameCheck" , UsernameText.getText().toString()};
+                            oos.writeObject(a);
+                            oos.flush();
+
+                            if (!ois.readBoolean()) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        UsernameText.setError("Username is Duplicate");
+                                        username = true;
+                                    }
+                                });
+                            }else {
+                                username = false;
+                            }
+
+                            oos.close();
+                            ois.close();
+                            s.close();
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
             }
 
             @Override
@@ -117,7 +199,19 @@ public class RegisterActivity extends AppCompatActivity {
         PasswordText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (PasswordText.length() ==0) {
+                    PasswordText.setError("Empty");
+                    password =true ;
+                }
 
+                else if (PasswordText.length() < 6) {
+                    PasswordText.setError("Password Must Be more than 5 Char");
+                    password = true ;
+                }
+                else {
+                    PasswordText.setError(null);
+                    password = false ;
+                }
             }
 
             @Override
@@ -166,7 +260,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (imageView.getDrawable() !=null) {
                         Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        bmp.compress(Bitmap.CompressFormat.JPEG, 1, baos);
                         imgbyte = baos.toByteArray();
                     }
                     else
@@ -253,12 +347,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-
-    public byte[] getBytesFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-        return stream.toByteArray();
-    }
 
 
 }

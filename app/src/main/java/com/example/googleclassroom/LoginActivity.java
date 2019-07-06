@@ -1,8 +1,13 @@
 package com.example.googleclassroom;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +46,21 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (ContextCompat.checkSelfPermission(LoginActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
+                    Manifest.permission.CAMERA)) {
+
+            } else {
+                ActivityCompat.requestPermissions(LoginActivity.this,
+                        new String[]{Manifest.permission.CAMERA},
+                        101);
+
+            }
+        }else  {}
 
 
 

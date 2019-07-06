@@ -39,7 +39,6 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout mdrawerLayout ;
-    private ActionBarDrawerToggle mToggle ;
     private Toolbar mToolbar ;
     private ImageView imageView ;
     private TextView usernameTextView ;
