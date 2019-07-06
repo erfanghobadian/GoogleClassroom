@@ -86,16 +86,17 @@ public class CLSAdapter extends RecyclerView.Adapter<CLSAdapter.PrimaryViewHolde
         for (Assignment ass:topic.assignments) {
             System.out.println(ass.title);
         }
+        for (User usr:myclass.teachers) {
+            if (usr.username.equals(user.username))
+                check = true ;
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(viewHolder.itemView.getContext());
         viewHolder.mSecondaryRecyclerView.setLayoutManager(linearLayoutManager);
         ClSAdapterChild adapterChild = new ClSAdapterChild(topics.get(i).assignments , check , activity , user , myclass);
         viewHolder.mSecondaryRecyclerView.setAdapter(adapterChild);
 
-        for (User usr:myclass.teachers) {
-            if (usr.username.equals(user.username))
-                check = true ;
-        }
+
         if (!check) {
             viewHolder.imageButton.setVisibility(View.INVISIBLE);
         }
@@ -282,11 +283,21 @@ class ClSAdapterChild extends RecyclerView.Adapter<ClSAdapterChild.SecondViewHol
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity.getActivity() , AssignmentActivity.class) ;
-                intent.putExtra("user" , user );
-                intent.putExtra("class" , myclass );
-                intent.putExtra("ass" , assignment );
-                activity.startActivity(intent);
+                System.out.println(check);
+                if (check) {
+                    Intent intent = new Intent(activity.getActivity(), AssignmentActivity.class);
+                    intent.putExtra("user", user);
+                    intent.putExtra("class", myclass);
+                    intent.putExtra("ass", assignment);
+                    activity.startActivity(intent);
+                }
+                else  {
+                    Intent intent = new Intent(activity.getActivity(), AssignmentStudentActivity.class);
+                    intent.putExtra("user", user);
+                    intent.putExtra("class", myclass);
+                    intent.putExtra("ass", assignment);
+                    activity.startActivity(intent);
+                }
 
 
             }

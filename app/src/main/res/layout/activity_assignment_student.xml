@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AssignmentStudentActivity"
+    android:orientation="vertical">
+
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/assignmentstacction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/desassst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            />
+        <TextView
+            android:id="@+id/duedatest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/attachst"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@android:color/holo_blue_bright"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/image_assst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Image" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/grey"
+            android:background="#00D11212"
+            android:baselineAligned="true"
+            android:duplicateParentState="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:visibility="visible"
+            app:boxBackgroundColor="#00E70404"
+            app:boxStrokeColor="@color/grey"
+            app:boxStrokeWidth="12dp"
+            app:errorEnabled="true"
+            app:helperTextEnabled="true"
+            tools:visibility="visible"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/texthomwwork"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/grey"
+                android:ems="15"
+                android:hint="Text"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:visibility="visible" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mark"/>
+
+        <Button
+            android:id="@+id/sendhomework"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send" />
+
+    </LinearLayout>
+</LinearLayout>
